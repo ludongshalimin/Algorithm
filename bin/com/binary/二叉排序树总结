@@ -1,0 +1,49 @@
+二分搜索树总结
+
+二叉排序树作为字典树的有力实现
+
+二叉排序树的框架
+public class BinarySearchTree(Key extends Comparable<Key>,Value){
+	private class Node{
+		public Node(Key key,Value value){}
+		public Node(Node node){}
+	}
+	private Node node;
+	private int count;
+	
+	public BinarySearchTree(){}
+	public int size(){}
+	public boolean isEmpty(){}
+	public boolean contain(Key key){}
+	public Value search(Key key){}
+	public void insert(Key key,Value value){}
+	
+	//遍历
+	public void preOrder(){}
+	public void inOrder(){}
+	public void postOrder(){}
+	public void levelOrder(){}
+	
+	public Key minNum(){}
+	public Key maxNum(){}
+	public void removeMin(){}
+	public void removeMax(){}
+	public void remove(Key key)
+	
+}
+floor                                                                                   
+ceil: ceil(x)大于 x的最小值
+
+问题，二叉树中的元素排名第几，比如58在二叉树中排名第几？
+	解决方案：在每个元素新增一个变量，这个变量记录当前元素包含了几个子节点，
+	node.right = 58
+	则58排名 = node包含的节点数-node.left包含的节点数+ node.right.left包含的节点数+1        
+
+缺点：二分搜索树不是平衡二叉树，所以如果按照顺序插入一组数据，二分搜索树会退化为一个链表
+平衡二叉树：红黑树的一种实现有力的解决了这个问题
+		avl树
+trie
+	字典树，统计词频
+	输入的单词非常多，和单词本身的长度有关
+	每个节点会保存一个字母，每个单词是从根节点的具体路径
+

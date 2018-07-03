@@ -1,0 +1,12 @@
+有权图总结
+
+	切分定理：
+		把图中的节点分为两个部分
+		横切边：
+		
+		
+最小生成树
+	lazyprim算法    eloge
+	prim算法               elogv
+	kruskal算法	eloge	
+		
