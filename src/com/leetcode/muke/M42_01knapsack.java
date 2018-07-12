@@ -24,6 +24,65 @@ import java.util.Arrays;
  *	   weight: 1   2   3
  *      value: 6   10  12
  */
+class Solution_BagProblem0712{
+	//状态转移：F(C,n)表示将[0..n]为索引的物品填充容量为C的背包所获得最大的价值
+	//这里有两种情况：1，如果包含该索引n，这里的条件是C>=w[n],F(C-w[n],n-1) + v[n]
+	//             2, 如果不包含索引n,F(C,n-1)
+	//             3,这两者取最大的一个
+    //终止条件：C==0 return 0;
+	//        n == -1 return 0;
+	private int getMaxValue(int n,int c,int[]w,int[]v){
+		int maxValue=0;
+		if(c == 0)return 0;
+		if(n == -1)return 0;
+		if(c>=w[n]){
+			maxValue = getMaxValue(n-1,c-w[n],w,v)+v[n];
+		}
+		maxValue = Math.max(maxValue,getMaxValue(n-1,c,w,v));
+		return maxValue;
+	}
+	public int getMaxValue(int c,int[]w,int[] v){
+		int n = w.length;
+		return getMaxValue(n-1,c,w,v);
+	}
+	public int getMaxValueDy(int c,int[]w,int[]v){  //memo[j][i]表示[0..i-1]填充容量为j的背包所获得的最大的价值
+		int n = w.length;
+		int[][]memo = new int[c+1][n];
+		for(int i = 0;i<n;i++){
+			memo[0][i] = 0;
+		}
+		for(int j= 0;j<=c;j++){
+			if(j>= w[0]){
+				memo[j][0] =  v[0];     //将索引为0的物品填到
+			}
+		}
+		for(int i = 1;i<n;i++){
+			for(int j = 1;j<=c;j++){
+				int maxValue = memo[j][i-1];
+				if(j>=w[i]){
+					maxValue = Math.max(maxValue,memo[j-w[i]][i-1]+v[i]);
+				}
+				memo[j][i] = maxValue;
+			}
+		}
+		return memo[c][n-1];
+	}
+	public int getMaxValueDy2(int C,int[] w,int[] v){
+		int n = w.length;
+		int[] memo = new int[C+1]; //memo[i]表示的填充容量填充容量为i所获得的最大的价值
+			//memo[i] memo[i-1],什么关系？
+		for(int i = 1;i<=C;i++){    //先对memo[i]赋初值
+			memo[i] = i>w[0]?v[0]:0;
+		}
+		for(int j = 1;j<n;j++){    //n个箱子
+			for(int k = 1;k<=C;k++){  //容量为k
+				if(k >= w[j])          //当前的权重能够放的下物品j
+					memo[k] = Math.max(memo[k],v[j] + memo[k-w[j]]);
+			}
+		}
+		return memo[C];
+	}
+}
 class Solution_BagProblem0618{
 	//背包问题：权重数组是w,价值数组是v,容量为C，求获取的最大的价值，尽量填满容量C
 	//递归解决问题
@@ -150,11 +209,18 @@ public class M42_01knapsack {
 		Solution_BagProblem0518 s2 = new Solution_BagProblem0518();
 		System.out.println(s2.getMaxValue(w,v,5));
 		System.out.println(s2.getMaxValueDepth(w,v,5));
-		System.out.println("sasa");
+		System.out.println("sasa0618");
 		
 		Solution_BagProblem0618 sss = new Solution_BagProblem0618();
 		System.out.println(sss.getMaxValue(w,v,5));
 		System.out.println(sss.getMaxValue(w,v,5));
+		
+		System.out.println("sasa0712");
+		Solution_BagProblem0712 ss2 = new Solution_BagProblem0712();
+		System.out.println(ss2.getMaxValue(5,w,v));
+		System.out.println(ss2.getMaxValueDy(5,w,v));
+		System.out.println(ss2.getMaxValueDy2(5,w,v));
+		
 		
 	}
 }
