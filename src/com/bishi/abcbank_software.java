@@ -9,6 +9,74 @@ package com.bishi;
  * @author weifeng
  *
  */
+/*
+ * leetcode 97题目
+ * Given s1, s2, s3, find whether s3 is formed by the interleaving of s1 and s2.
+	Example 1:
+	Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
+	Output: true
+	Example 2:
+	Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
+	Output: false
+ */
+class Solution_ConsitsString0707{
+	//这里的F(n,m)代表s1[0..n],s2[0..m]是否可以构成s3[0..n+m+1];因为需要全部的进行匹配n+1的长度m+1的长度
+	//终止条件n==-1,表示s1字符串已经没有了，变成了s2[0..m]是否可以构成s3[0..m]
+	//终止条件m==-1,表示s2字符串已经没有了，变成了s1[0..n]是否可以构成s3[0..n]
+	private boolean isConsist(String s1,String s2,String s3,int n,int m){
+		if(n == -1){
+			return s2.substring(0,m+1).equals(s3.substring(0,m+1));
+		}
+		if(m == -1){
+			return s1.substring(0,n+1).equals(s3.substring(0,n+1));
+		}
+		if(s1.charAt(n)== s3.charAt(m+n+1)&& isConsist(s1,s2,s3,n-1,m)||
+				s2.charAt(m) == s3.charAt(m+n+1)&& isConsist(s1,s2,s3,n,m-1)){
+			return true;
+		}
+		return false;
+	}
+	public boolean isConsist(String s1,String s2,String s3){
+        int n = s1.length();
+        int m = s2.length();
+        if(n+m != s3.length())return false;
+        if(n==0&&m==0)return s3.length()==0;
+        if(n==0)return s2.equals(s3);
+        if(m==0)return s1.equals(s3);
+        return isConsist(s1,s2,s3,n-1,m-1);
+	}
+	//这里memo[i][j]表示，s1[0..i-1],s2[0..j-1]是否可以构成s3[0..i+j-1]
+	//memo[0][j]表示,s1[0..-1]也就是不存在了，s2[0..j]是否可以构成s3[0..j]
+	//memo[i][0]表示s1[0..i],s2[0..-1]也就是不存在了，是否可以构成s3[0..i]
+	//最后返回memo[n][m]表示s1[0..n-1],s2[0..m-1]是否可以构成s3[0..n+m-1]
+	//因为没有办法表示[-1][i]所以只能拓展[n][m]
+	public boolean isConsistDy(String s1,String s2,String s3){
+		int n = s1.length();
+		int m = s2.length();
+		if(s1.length()+s2.length() != s3.length())return false;
+        if(n==0&&m==0)return s3.length()==0;
+        if(n==0)return s2.equals(s3);
+        if(m==0)return s1.equals(s3);   //也就是说要执行下面两个字符串必须有字符
+		boolean[][] memo = new boolean[n+1][m+1];  //代表的是索引
+		for(int i = 1;i<=n;i++){
+			if(s1.substring(0,i).equals(s3.substring(0,i))){
+				memo[i][0] = true;
+			}
+		}
+		for(int j = 1;j<=m;j++){
+			if(s2.substring(0,j).equals(s3.substring(0,j))){
+				memo[0][j] = true;
+			}
+		}
+		for(int i = 1;i<=n;i++){
+			for(int j=1;j<=m;j++){
+				memo[i][j] = ((s1.charAt(i-1)==s3.charAt(i+j-1)&&memo[i-1][j]) ||
+						(s2.charAt(j-1)==s3.charAt(i+j-1)&&memo[i][j-1]));
+			}
+		}
+		return memo[n][m];		
+	}
+}
 class Solution_jimu0627{
 	//求解过程，F(n,k)表示的是[0..n]按照顺序选出k个数后得到的结果最小
 	//F(n,k) = F(n-1,k)                 //表示的是不包括arr[n]
@@ -70,52 +138,55 @@ class Solution_jimu0627{
 }
 public class abcbank_software {
 	//f(n,m)表示的是s1字符串的索引n位置，s
-	public boolean isComponent(String s1,String s2,String s3,int n,int m){ //这里的n,m代表的是具体的索引
-		//如何处理极端的情况。一个字符串已经完全完了，另一个字符串还有内容
-		if(n==-1 || m==-1)return true;   //这是递归后的解决方法
-		if((s1.charAt(n) == s3.charAt(n+m+1)&& isComponent(s1,s2,s3,n-1,m)) ||
-			(s2.charAt(m) == s3.charAt(n+m+1)&& isComponent(s1,s2,s3,n,m-1))){
-				return true;
+	private boolean isConsist(String s1,String s2,String s3,int n,int m){
+		if(n == -1){
+			return s2.substring(0,m+1).equals(s3.substring(0,m+1));
+		}
+		if(m == -1){
+			return s1.substring(0,n+1).equals(s3.substring(0,n+1));
+		}
+		if(s1.charAt(n)== s3.charAt(m+n+1)&& isConsist(s1,s2,s3,n-1,m)||
+				s2.charAt(m) == s3.charAt(m+n+1)&& isConsist(s1,s2,s3,n,m-1)){
+			return true;
 		}
 		return false;
 	}
 	public boolean isComponent(String s1,String s2,String s3){
-		int n = s1.length();
-		int m = s2.length();
-		if(n+m != s3.length())return false;
-		return isComponent(s1,s2,s3,n-1,m-1);
+        int n = s1.length();
+        int m = s2.length();
+        if(n+m != s3.length())return false;
+        if(n==0&&m==0)return s3.length()==0;
+        if(n==0)return s2.equals(s3);
+        if(m==0)return s1.equals(s3);
+        return isConsist(s1,s2,s3,n-1,m-1);
 	}
-	boolean[][] matched ;
 
 	//这里我以后要用，动态规划解决问题，首先想到的是先进行初始化
 	public boolean isComponentDy(String s1,String s2,String s3){
+		int n = s1.length();
+		int m = s2.length();
 		if(s1.length()+s2.length() != s3.length())return false;
-		matched = new boolean[s1.length()+1][s2.length()+1];
-		for(int i = 1;i<=s1.length();i++){
-			if(s1.charAt(i-1) == s3.charAt(i-1)){
-				matched[i][0] = true;
+        if(n==0&&m==0)return s3.length()==0;
+        if(n==0)return s2.equals(s3);
+        if(m==0)return s1.equals(s3);   //也就是说要执行下面两个字符串必须有字符
+		boolean[][] memo = new boolean[n+1][m+1];  //代表的是索引
+		for(int i = 1;i<=n;i++){
+			if(s1.substring(0,i).equals(s3.substring(0,i))){
+				memo[i][0] = true;
 			}
 		}
-		for(int j = 1;j<=s2.length();j++){
-			if(s2.charAt(j-1) == s3.charAt(j-1)){
-				matched[0][j] = true;
+		for(int j = 1;j<=m;j++){
+			if(s2.substring(0,j).equals(s3.substring(0,j))){
+				memo[0][j] = true;
 			}
 		}
-		for(int i = 1;i<= s1.length();i++){
-			for(int j = 1;j<=s2.length();j++){
-//				if(i==0&&j==0){
-//					matched[i][j] = true;
-//				}else if(i == 0){
-//					matched[i][j] =(matched[i][j-1]&&s2.charAt(j-1)==s3.charAt(i+j-1));
-//				}else if(j ==0){
-//					matched[i][j] = (matched[i-1][j]&&s1.charAt(i-1)==s3.charAt(i+j-1));
-//				}else{
-					matched[i][j] = (matched[i-1][j]&&s1.charAt(i-1)==s3.charAt(i+j-1) ||
-							matched[i][j-1]&&s2.charAt(j-1)==s3.charAt(i+j-1));  //就是这么一句话的事，考场上倒是想到了，但是就是没有答上来
-//				}
+		for(int i = 1;i<=n;i++){
+			for(int j=1;j<=m;j++){
+				memo[i][j] = ((s1.charAt(i-1)==s3.charAt(i+j-1)&&memo[i-1][j]) ||
+						(s2.charAt(j-1)==s3.charAt(i+j-1)&&memo[i][j-1]));
 			}
 		}
-		return matched[s1.length()][s2.length()];
+		return memo[n][m];
 	}
 	public static void main(String[] args){
 		abcbank_software s = new abcbank_software();
@@ -141,5 +212,26 @@ public class abcbank_software {
 	    Solution_jimu0627 ss = new Solution_jimu0627();
 	    System.out.println(ss.getMinValue(arr,2));
 	    System.out.println(ss.getMinValueDy(arr,2));
+	    
+
+//	    1432219
+	    int[] arr1 = {1,4,3,2,2,1,9};
+	    System.out.println("1432219 remove 3:" + ss.getMinValue(arr1,4));
+	    int[] arr2 = {1,0,2,0,0};
+	    System.out.println("10200 remove 1:" + ss.getMinValue(arr2,4));
+	    int[] arr3 = {1,0};
+	    System.out.println("10 remove 2:"+ss.getMinValue(arr3,0));
+	    
+	    
+	    System.out.println("0707");
+	    Solution_ConsitsString0707 ss1 = new Solution_ConsitsString0707();
+	    System.out.println(ss1.isConsist(s11,s22,s33));
+	    System.out.println(ss1.isConsist(s11,s22,s43));
+	    System.out.println(ss1.isConsist("db","b","cbb"));
+	    System.out.println(ss1.isConsist("aa","ab","aaba"));
+	    System.out.println(ss1.isConsistDy(s11,s22,s33));
+	    System.out.println(ss1.isConsistDy(s11,s22,s43));
+	    System.out.println(ss1.isConsistDy("db","b","cbb"));
+	    System.out.println(ss1.isConsistDy("aa","ab","aaba"));
 	}
 }

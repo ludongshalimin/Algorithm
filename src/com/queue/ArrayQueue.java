@@ -53,11 +53,6 @@ public class ArrayQueue<E> {
 		System.out.println("队列首元素" + q.pop());
 		System.out.println("队列的长度" + q.size());
 		System.out.println("队列的首元素" + q.pop());
-	}
-	
-	
-	
-	
-	
+	}	
 }
  
