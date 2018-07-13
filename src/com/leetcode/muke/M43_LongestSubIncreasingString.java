@@ -2,6 +2,91 @@ package com.leetcode.muke;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+/*
+ * 给定一个数组，比如【10,9,2,5,3,7,102,18】
+ * 发现最长的数组的长度，并且求出最长的数组
+ * 【2,3,7,101]
+ */
+class Solution_LongestSubIncreasingSequence_0712{
+	private int getMaxLength(int[] arr,int n){
+		int maxlength = 1;    //因为最小就是1
+		for(int i= 0;i<n;i++){
+			if(arr[n] > arr[i]){
+				maxlength = Math.max(maxlength,getMaxLength(arr,i) + 1);
+			}
+		}
+		return maxlength;
+	}
+	public int getMaxLength(int[] arr){
+		int n = arr.length;
+		int maxlength = 1;    //因为最小就是1
+		for(int i = 0;i<n;i++){
+			maxlength = Math.max(maxlength,getMaxLength(arr,i));
+		}
+		return maxlength;
+	}
+	public int getMaxLengthDy(int[] arr){
+		int n = arr.length;
+		if(n==0) return 0;
+		if(n==1) return 1;
+		
+		int[] memo = new int[n];  //memo[i]表示的是以i为结尾的最长增长子序列的长度
+		memo[0] = 1;
+		memo[1] = (arr[1]>arr[0]?2:1);
+		for(int i = 2;i<n;i++){
+			int maxlength = 1;   //最小就是1，因为自身就是一个数
+			for(int j = 0;j<i;j++){
+				if(arr[i] > arr[j]){
+					maxlength = Math.max(maxlength,memo[j] + 1);
+				}
+			}
+			memo[i] = maxlength;
+		}
+		int lastmax = 0;
+		for(int i = 0;i<n;i++){
+			lastmax = Math.max(lastmax,memo[i]);
+		}
+		return lastmax;  //这里一定要注意，最大值并不一定出现在最后的位置
+	}
+	//找到最长的长度的字符串,
+	//这里我考略的是使用嵌套的数组容器，这里面还有一些问题，这个字符串可能并不是一个
+	//输出所有的最长的路径
+	public void printLIS(int[] arr){
+		int n = arr.length;
+		ArrayList<LinkedList<Integer>> ls = new ArrayList<LinkedList<Integer>>();
+		for(int i = 0;i<n;i++){   //将元素add到每一个元素的开头
+			LinkedList<Integer> res = new LinkedList<Integer>();
+			res.add(arr[i]);
+			ls.add(res);
+		}
+		for(int i=0;i<n;i++){
+			for(int j = i;j<n;j++){
+				if(arr[j] > ls.get(i).getLast()){
+					ls.get(i).add(arr[j]);
+				}
+			}
+		}
+		int maxlength = 0;
+		for(int i = 0;i<n;i++){
+			maxlength = Math.max(maxlength,ls.get(i).size());
+		}
+		System.out.println("max length:"+maxlength);
+		//打印或者输出最长的
+		for(int i = 0;i<n;i++){
+			if(ls.get(i).size() == maxlength){
+				LinkedList<Integer> ll = ls.get(i);
+				StringBuilder ss = new StringBuilder();
+				for(int k:ll){
+					ss.append(new String().valueOf(k));
+					ss.append(",");
+				}
+				System.out.println(new String(ss));
+			}
+		}
+		
+	}
+}
 class Solution_getMaxLength0520{
 	//递归的实现,F(n)表示以arr[0]...以arr[n]为结尾的最长上升子数组的长度
 	//状态转移,F(n)=   F(n-1)  如果arr[n-1]>=arr[n]
@@ -146,5 +231,18 @@ public class M43_LongestSubIncreasingString {
 		System.out.println(sss.getMaxLength(nums2));
 		System.out.println(sss.getMaxLength(nums3));
 		System.out.println(sss.getMaxLength(nums4));
+		
+		System.out.println("0712");
+		Solution_LongestSubIncreasingSequence_0712 ss3 = new Solution_LongestSubIncreasingSequence_0712();
+		System.out.println(ss3.getMaxLength(nums1));
+		System.out.println(ss3.getMaxLength(nums2));
+		System.out.println(ss3.getMaxLength(nums3));
+		System.out.println(ss3.getMaxLength(nums4));
+		System.out.println(ss3.getMaxLengthDy(nums1));
+		System.out.println(ss3.getMaxLengthDy(nums2));
+		System.out.println(ss3.getMaxLengthDy(nums3));
+		System.out.println(ss3.getMaxLengthDy(nums4));
+		ss3.printLIS(nums1);
+	
 	}
 }
