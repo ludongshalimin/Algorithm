@@ -9,18 +9,24 @@ import java.util.LinkedList;
  * 【2,3,7,101]
  */
 class Solution_LongestSubIncreasingSequence_0712{
+	private int[]memo;
 	private int getMaxLength(int[] arr,int n){
 		int maxlength = 1;    //因为最小就是1
+		if(memo[n] != -1)return memo[n];
 		for(int i= 0;i<n;i++){
 			if(arr[n] > arr[i]){
 				maxlength = Math.max(maxlength,getMaxLength(arr,i) + 1);
 			}
 		}
+		memo[n] = maxlength;
 		return maxlength;
 	}
 	public int getMaxLength(int[] arr){
 		int n = arr.length;
+		if(n == 0) return 0;
 		int maxlength = 1;    //因为最小就是1
+		memo = new int[n];
+		Arrays.fill(memo,-1);
 		for(int i = 0;i<n;i++){
 			maxlength = Math.max(maxlength,getMaxLength(arr,i));
 		}

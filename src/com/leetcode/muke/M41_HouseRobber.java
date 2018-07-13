@@ -23,6 +23,39 @@ import java.util.Arrays;
 //抢劫房子，要求是两个房子不能够紧紧挨着，求获得的抢劫房子所获得最大的价值
 //f(n)表示抢劫以n为结尾的房子所获得最大的价值
 //f(n) = max(f(n-1),f(n-2)+ arr[n])
+class Solution_houseRobber_0713{
+	private int[] memo ;  //使用记忆化搜索的方法
+	private int getMax(int[] arr,int n){
+		if(n == 0)return arr[0];
+		if(n == 1) return Math.max(arr[0],arr[1]);
+		if(memo[n] != -1)return memo[n];
+		int max = getMax(arr,n-1);
+		max = Math.max(max,getMax(arr,n-2) + arr[n]);
+		memo[n] = max;
+		return max;
+	}
+	public int getMaxValue(int[] arr){
+		int n = arr.length;
+		if(n == 0)return 0;
+		memo = new int[n];
+		Arrays.fill(memo,-1);
+		return getMax(arr,n-1);   //这里面尽量使用索引
+	}
+	//使用动态规划的方法进行
+	public int getMaxValueDy(int[] arr){
+		int n = arr.length;
+		if(n==0)return 0;
+		if(n==1)return arr[0];
+		if(n==2)return Math.max(arr[0],arr[1]);
+		int[] memo = new int[n];  //memo[i]表示的是,[0...i]所获得的最大的价值
+		memo[0] = arr[0];
+		memo[1] = Math.max(arr[0],arr[1]);
+		for(int i = 2;i<n;i++){
+			memo[i] = Math.max(memo[i-1],memo[i-2] + arr[i]);
+		}
+		return memo[n-1];
+	}
+}
 class Solution_houseRobber_0618{
 	//1，递归的解法
 	public int getMaxValue(int[] arr){
@@ -166,5 +199,10 @@ public class M41_HouseRobber {
 		Solution_houseRobber_0618 sss = new Solution_houseRobber_0618();
 		System.out.println(sss.getMaxValue(arr));
 		System.out.println(sss.getMaxValueDy(arr));
+		
+		System.out.println("0713");
+		Solution_houseRobber_0713 ssss = new Solution_houseRobber_0713();
+		System.out.println(ssss.getMaxValue(arr));  //尽量使用驼峰标志
+		System.out.println(ssss.getMaxValueDy(arr));
 	}
 }

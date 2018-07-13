@@ -28,6 +28,88 @@ S2 = AEBD
  */
 //采用递归的方法进行求解最长公共子序列，然后求出最长公共子序列的长度,
 //同时获取最长的公共子序列
+//目前0713这个是非常正确的
+class Solution_LongestCommonSequence0713{
+	private int[][] memo;  //递归+采用记忆化搜索
+	private int getLength(String s1,String s2,int n,int m){  //这里的n,m代表了索引
+		if(n == -1 || m == -1)return 0;
+		if(memo[n][m] != -1) return memo[n][m];
+		int maxLength = 0;
+		if(s1.charAt(n) == s2.charAt(m)){
+			maxLength = getLength(s1,s2,n-1,m-1) + 1;
+		}else{
+//			maxLength = Math.max(maxLength,getLength(s1,s2,n-1,m));
+			maxLength = Math.max(getLength(s1,s2,n-1,m),getLength(s1,s2,n,m-1));
+		}
+		memo[n][m] = maxLength;
+		return maxLength;
+		
+	}
+	public int getMaxLength(String s1,String s2){
+		int n = s1.length();
+		int m = s2.length();
+		memo = new int[n][m];
+		for(int i = 0;i<n;i++){
+			Arrays.fill(memo[i],-1);
+		}
+		return getLength(s1,s2,n-1,m-1);	
+	}
+	public int getmaxLengthDy(String s1,String s2){
+		int n = s1.length();
+		int m = s2.length();
+		if(n == 0||m == 0)return 0;
+		int[][] memo = new int[n][m]; //memo[i][j]表示，[0..i]s1,[0..j]s2的最大的长度
+		for(int i = 0;i<n;i++){
+			if(s1.charAt(i) == s2.charAt(0)||(i>0&&memo[i][0] ==1)){
+				memo[i][0] = 1;
+			}
+		}
+		for(int j = 0;j<m;j++){
+			if(s2.charAt(0) == s1.charAt(0) || (j>0&&memo[0][j] == 1)){
+				memo[0][j] = 1;
+			}
+		}
+		for(int i = 1;i<n;i++){
+			for(int j = 1;j<m;j++){
+				int maxlength = 0;
+				if(s1.charAt(i) == s2.charAt(j)){
+					maxlength = memo[i-1][j-1] + 1;
+				}else{
+//					maxlength = Math.max(maxlength,memo[i-1][j]);  //这里如果不相等的话，只能是小
+					maxlength = Math.max(memo[i-1][j],memo[i][j-1]);
+				}
+				memo[i][j] = maxlength;
+			}
+		}
+		return memo[n-1][m-1];
+	}
+	//这里要打印最大的长度字符串
+	public String printLCS(String s1,String s2){
+		int n = s1.length()-1;
+		int m = s2.length()-1;
+		int maxlength = getMaxLength(s1,s2);  //得到最大的
+		StringBuilder ss = new StringBuilder();
+		while(n>=0&&m>=0){
+			if(s1.charAt(n) == s2.charAt(m)){
+//				ss.append(s1.charAt(n));
+				ss.insert(0,s1.charAt(n));
+				n--;
+				m--;
+			}else if(n==0){
+				m--;
+			}else if(m==0){
+				n--;
+			}else{
+				if(memo[n-1][m]>memo[n][m-1]){
+					n--;
+				}else{
+					m--;
+				}
+			}
+		}
+		return ss.toString();
+	}
+}
 class Solution_LongestCommonSquence0623{
 	private int[][]memo;
 	private int getMaxLen(String s1,String s2,int n,int m){//s1[0..n],s2[0...m]，所获得最长的长度
@@ -254,6 +336,19 @@ public class M45_LongestCommonSquence {
         System.out.println(ss.getMaxLen(s1,s2));
         System.out.println(ss.getMaxLenDy(s1,s2));
         System.out.println("common string " +ss.getCommonString(s1,s2));
+        
+        System.out.println("0713");
+        Solution_LongestCommonSequence0713 sss = new Solution_LongestCommonSequence0713();
+        s1 = "ABCDGH";
+        s2 = "AEDFHR";
+        System.out.println(sss.getMaxLength(s1,s2));
+        System.out.println(sss.getmaxLengthDy(s1,s2));
+        System.out.println("common string: " + sss.printLCS(s1,s2));
+        s1 = "AAACCGTGAGTTATTCGTTCTAGAA";
+        s2 = "CACCCCTAAGGTACCTTTGGTTC";
+        System.out.println(sss.getMaxLength(s1,s2));
+        System.out.println(sss.getmaxLengthDy(s1,s2));
+        System.out.println("common string: " +sss.printLCS(s1,s2));
    
     }
 }

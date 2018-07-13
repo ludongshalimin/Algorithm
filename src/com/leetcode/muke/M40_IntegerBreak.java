@@ -14,6 +14,42 @@ import java.util.Arrays;
  * @author weifeng
  *
  */
+class Solution_IntegerBreak0713{
+	private int[] memo;
+	private int getMax(int n){
+		if(n == 1)return 1;
+		if(n == 2) return 1;
+		if(memo[n] != -1)return memo[n];
+		int max = 0;
+		for(int i = 1;i<n;i++){  //这里可以拆分成i*(n-i)
+			max = Math.max(max,i*(n-i));
+			max = Math.max(max,i*getMax(n-i));
+		}
+		memo[n] = max;
+		return max;
+	}
+	public int getMaxValue(int n){
+		if(n<=0)return 0;
+		memo = new int[n+1];
+		Arrays.fill(memo,-1);
+		return getMax(n);
+	}
+	public int getMaxValueDy(int n){
+		if(n<= 0)return 0;
+		if(n == 1)return 1;
+		if(n == 2)return 1;
+		int[] memo = new int[n+1];  //memo[i]表示拆分i所得到的最大的乘积
+		for(int i = 3;i<=n;i++){
+			int max = 0;
+			for(int j=1;j<i;j++){
+				max = Math.max(max,j*(i-j));
+				max = Math.max(max,j*memo[i-j]);
+			}
+			memo[i] = max;
+		}
+		return memo[n];
+	}
+}
 class Solution_IntegerBreak0518{
 	public int integerBreak(int n){    //递归的解法
 		int maxbreak = Integer.MIN_VALUE;
@@ -179,6 +215,12 @@ public class M40_IntegerBreak {
 		System.out.println(s2.integerBreakII(10));
 		System.out.println(s2.integerbreakDynamic(10));
 		System.out.println("end");
+		
+		System.out.println("0713");
+		Solution_IntegerBreak0713 sss = new Solution_IntegerBreak0713();
+		System.out.println(sss.getMaxValue(10));
+		System.out.println(sss.getMaxValueDy(10));
+		
 	}
 	
 }

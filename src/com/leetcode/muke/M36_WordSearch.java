@@ -8,6 +8,19 @@ package com.leetcode.muke;
  * @author weifeng
  *
  */
+/*
+board = {
+		{'A','B','C','E'},
+		{'S','F','C','S'},
+		{'A','D','E','E'}
+}
+"ABCCED",return true
+"SEE",return true;
+"ABCB",return false;
+*/
+class Solution_wordSearch0713{
+	
+}
 class Solution_WordSearch{
 	boolean[][] visit;
 	private boolean isArea(char[][]word,int i,int j){

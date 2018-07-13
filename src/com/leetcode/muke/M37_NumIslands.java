@@ -11,6 +11,77 @@ import java.util.Arrays;
  * flood fill问题
  *
  */
+//深度优先遍历的问题还是有些问题
+//屏蔽的是我的错误的答案
+//class Solution_NumIsland_0713II{
+//	private boolean[][] visit;
+//	private boolean inArea(char[][] arr,int i,int j){
+//		int n = arr.length;
+//		int m = arr[0].length;
+//		return i>=0&& i<n&&j>=0&&j<m;
+//	}
+//	private boolean dfs(char[][] arr,int i,int j){  //从arr[i][j]
+//		int[][] pos = {{1,0},{0,1},{0,-1},{-1,0}};  //两个前向的方向
+//		if(visit[i][j]) return true;
+//		visit[i][j] = true;  //表示访问过了arr[i][j]的位置,这里要设置三种状态，-1表示没有访问过，0表示是海洋，1表示是陆地
+//		for(int k = 0;k<4;k++){
+//			int new_x = i+pos[k][0];
+//			int new_y = j+pos[k][1];
+//			if(inArea(arr,new_x,new_y) && arr[new_x][new_y] == '1'&&!visit[new_x][new_y]){ //新位置还是一个岛屿，且与arr[i][j]相连接
+//				return dfs(arr,new_x,new_y);
+//			}
+//		}
+//		return false;
+//	}
+//	public int islandCount(char[][] arr){
+//		int n = arr.length;
+//		int m = arr[0].length;
+//		visit = new boolean[n][m];
+//		int count = 0;   //孤岛的数量
+//		for(int i = 0;i<n;i++){
+//			for(int j = 0;j<m;j++){
+//				if(arr[i][j]== '1'&&!dfs(arr,i,j)){  //当前是陆地，并且dfs去尽量的标记陆地，如果最后实在没有陆地可以标记了，就返回falsess
+//					count ++;
+//				}
+//			}
+//		}
+//		return count;
+//	}
+//}
+class Solution_NumIsland_0713{
+	private boolean[][] visit;
+	private boolean inArea(char[][] arr,int i,int j){
+		int n = arr.length;
+		int m = arr[0].length;
+		return i>=0&& i<n&&j>=0&&j<m;
+	}
+	private void dfs(char[][] arr,int i,int j){  //从arr[i][j]
+		int[][] pos = {{1,0},{0,1},{0,-1},{-1,0}};  //两个前向的方向
+		visit[i][j] = true;  //表示访问过了arr[i][j]的位置,这里要设置三种状态，-1表示没有访问过，0表示是海洋，1表示是陆地
+		for(int k = 0;k<4;k++){
+			int new_x = i+pos[k][0];
+			int new_y = j+pos[k][1];
+			if(inArea(arr,new_x,new_y) && arr[new_x][new_y] == '1'&&!visit[new_x][new_y]){ //新位置还是一个岛屿，且与arr[i][j]相连接
+				dfs(arr,new_x,new_y);
+			}
+		}
+	}
+	public int islandCount(char[][] arr){
+		int n = arr.length;
+		int m = arr[0].length;
+		visit = new boolean[n][m];
+		int count = 0;   //孤岛的数量
+		for(int i = 0;i<n;i++){
+			for(int j = 0;j<m;j++){
+				if(arr[i][j]== '1'&&!visit[i][j]){  //当前是陆地，并且dfs去尽量的标记陆地，如果最后实在没有陆地可以标记了，就返回false
+					dfs(arr,i,j);   
+					count ++;
+				}
+			}
+		}
+		return count;
+	}
+}
 class Solution_NumIslands{
 	boolean[][]visit;
 	private boolean isArea(char[][]arr,int i,int j){
@@ -112,5 +183,27 @@ public class M37_NumIslands {
         Solution_NumIslands ss = new Solution_NumIslands();
         System.out.println(ss.getNumIslands(grid1));
         System.out.println(ss.getNumIslands(grid2));
+        
+        char grid3[][] = {
+        		{'1'},
+        		{'1'}
+        };
+        char grid4[][] ={
+        		{'1','1','1'},
+        		{'0','1','0'},
+        		{'1','1','1'}
+        };
+        System.out.println("0713");
+        Solution_NumIsland_0713 sss = new Solution_NumIsland_0713();
+        System.out.println(sss.islandCount(grid1));
+        System.out.println(sss.islandCount(grid2));
+        System.out.println(sss.islandCount(grid3));
+        System.out.println(sss.islandCount(grid4));
+//        Solution_NumIsland_0713II ssss = new Solution_NumIsland_0713II();
+//        System.out.println(ssss.islandCount(grid1));
+//        System.out.println(ssss.islandCount(grid2));
+//        System.out.println(ssss.islandCount(grid3));
+//        System.out.println(ssss.islandCount(grid4));
+        
     }
 }
