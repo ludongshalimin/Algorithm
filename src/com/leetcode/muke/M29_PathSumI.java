@@ -5,6 +5,27 @@ package com.leetcode.muke;
  * @author weifeng
  *
  */
+class Solution_PathSumI_0715{
+	class TreeNode{
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode(int val){
+			this.val = val;
+		}
+	}
+	//是否存在一条从根到叶子的路径
+	public boolean hasPath(TreeNode root,int sum){
+		if(root == null)return false;
+		if(root.left == null && root.right == null){  //表示到达了叶子节点了
+			return root.val == sum;
+		}
+		if(hasPath(root.left,sum - root.val) || hasPath(root.right,sum-root.val)){
+			return true;
+		}
+		return false;
+	}
+}
 public class M29_PathSumI {
 	public class TreeNode{
 		int val;

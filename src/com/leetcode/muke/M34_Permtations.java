@@ -45,4 +45,7 @@ public class M34_Permtations {
 		}
 		return;
 	}
+	public static void main(String[] args){
+		
+	}
 }

@@ -7,6 +7,39 @@ package com.leetcode.muke;
  * @author weifeng
  *
  */
+class Solution_PathSumII_0715{
+	//这颗二叉树只是普通的二叉树
+	//有多少条这样的路径
+	class TreeNode {
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode(int val){
+			this.val = val;
+		}
+	}
+	private int findPath(TreeNode root,int sum){
+		if(root == null)return 0;
+		int count = 0;
+//		if(root.left == null && root.right == null){
+//			if( root.val == sum){
+//				count ++;
+//			}
+//		}
+		if(root.val == sum){  //这里的叶子节点也是普通的节点
+			count ++;
+		}
+		count += findPath(root.left,sum-root.val);
+		count += findPath(root.right,sum-root.val);
+		return count;
+	}
+	public int pathSum(TreeNode root,int sum){
+		if(root == null)return 0;
+		return findPath(root,sum) +
+				pathSum(root.left,sum)+
+				pathSum(root.right,sum);
+	}
+}
 public class M31_PathSumIII {
 	public class TreeNode{
 		int val;

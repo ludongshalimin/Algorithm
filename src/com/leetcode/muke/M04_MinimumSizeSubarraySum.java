@@ -11,6 +11,33 @@ package com.leetcode.muke;
  *
  *注意：最短的连续子数组
  */
+class Solution_shortestLen0715{
+	//最短的使得连续子数组的和sum> = s
+	public int getLen(int[] arr,int s){
+		int n = arr.length;
+		int i =0;
+		int j = -1;
+		int sum = 0;
+		int min = n+1;
+		while(i<n){
+			if(j+1<n&& sum<s){
+				j++;
+				sum += arr[j];
+			}else{
+				sum -= arr[i];
+				i++;
+			}
+			//已经到头了，或者sum>=s
+			if(sum >= s){
+				min = Math.min(min,j-i+1);
+			}
+		}
+		if(min == n+1){
+			min = 0;
+		}
+		return min;
+	}
+}
 class Solution_shortestLen0622{
 	public int getShortestLen(int[] arr,int s){
 		int n = arr.length;
@@ -120,5 +147,8 @@ public class M04_MinimumSizeSubarraySum {
 		System.out.println("0623");
 		Solution_shortestLen0622 s3 = new Solution_shortestLen0622();
 		System.out.println(s3.getShortestLen(arr,7));
+		System.out.println("0715");
+		Solution_shortestLen0715 s4 = new Solution_shortestLen0715();
+		System.out.println(s4.getLen(arr,7));
 	}
 }

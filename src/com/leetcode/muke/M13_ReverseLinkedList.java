@@ -6,7 +6,6 @@ package com.leetcode.muke;
  */
 
 //反转一个链表
-
 class Solution_ReverseList0506{
 	class Node{
 		int val;

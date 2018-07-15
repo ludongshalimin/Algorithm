@@ -29,6 +29,73 @@ import java.util.List;
  *
  *
  */
+class Solution_BinaryTreePath0715{
+	//打印二叉树的路径
+	class TreeNode{
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode(int val){
+			this.val = val;
+		}
+	}
+	private LinkedList<String> ls;
+	private void addPath(TreeNode root,String addPath){
+		if(root.left == null && root.right == null){  //表示已经到了叶子节点
+			StringBuilder sb = new StringBuilder(addPath);
+			sb.append("->");
+			sb.append(String.valueOf(root.val));
+			ls.add(sb.toString());
+			return;
+		}
+		if(root.left != null){
+			StringBuilder sb = new StringBuilder(addPath);
+			sb.append("->");
+			sb.append(String.valueOf(root.val));
+			addPath(root.left,sb.toString());
+		}
+		if(root.right != null){
+			StringBuilder sb = new StringBuilder(addPath);
+			sb.append("->");
+			sb.append(String.valueOf(root.val));
+			addPath(root.right,sb.toString());
+		}
+	}
+	//两种思路，一种是利用递归，一种是利用返回值
+	public LinkedList<String> printPath(TreeNode root){
+		if(root == null) return null;
+		ls = new LinkedList<String>();
+		StringBuilder sb = new StringBuilder(String.valueOf(root.val));
+		addPath(root.left,sb.toString());
+		addPath(root.right,sb.toString());
+		return ls;
+	}
+	//利用返回值进行
+	public LinkedList<String> printPathback(TreeNode root){
+		LinkedList<String> ls = new LinkedList<String>();
+		if(root == null)return null;
+		if(root.left == null && root.right == null){ //已经到达了叶子节点
+			String ss = String.valueOf(root.val);
+			ls.add(ss);
+			return ls;
+		}
+		LinkedList<String> left = printPathback(root.left);
+		for(String s:left){
+			StringBuilder sb = new StringBuilder(String.valueOf(root.val));
+			sb.append("->");
+			sb.append(s);
+			ls.add(sb.toString());
+		}
+		LinkedList<String> right = printPathback(root.right);
+		for(String s:right){
+			StringBuilder sb = new StringBuilder(String.valueOf(root.val));
+			sb.append("->");
+			sb.append(s);
+			ls.add(sb.toString());
+		}
+		return ls;
+	}
+}
 class Solution_binaryTreePath0520{
 	private LinkedList<String> ll;
 	public LinkedList<String> binaryTreePath(com.leetcode.muke.Solution_BinaryTreePath.Node n1){
@@ -151,6 +218,34 @@ public class M30_BinaryTreePaths {
 		Solution_binaryTreePath0520 sss = new Solution_binaryTreePath0520();
 		ll = sss.binaryTreePath(n1);
 		for(String s:ll){
+			System.out.println(s);
+		}
+		
+		
+		System.out.println("0715");
+		Solution_BinaryTreePath0715 ssss = new Solution_BinaryTreePath0715();
+		com.leetcode.muke.Solution_BinaryTreePath0715.TreeNode n11 =  ssss.new TreeNode(1);   //前面代表了什么类型，后面代表了一个实例的
+		com.leetcode.muke.Solution_BinaryTreePath0715.TreeNode n22 =  ssss.new TreeNode(2);   //前面代表了什么类型，后面代表了一个实例的
+		com.leetcode.muke.Solution_BinaryTreePath0715.TreeNode n33 =  ssss.new TreeNode(3);   //前面代表了什么类型，后面代表了一个实例的
+		com.leetcode.muke.Solution_BinaryTreePath0715.TreeNode n44 =  ssss.new TreeNode(4);   //前面代表了什么类型，后面代表了一个实例的
+		com.leetcode.muke.Solution_BinaryTreePath0715.TreeNode n55 =  ssss.new TreeNode(5);   //前面代表了什么类型，后面代表了一个实例的
+		com.leetcode.muke.Solution_BinaryTreePath0715.TreeNode n66 =  ssss.new TreeNode(6);   //前面代表了什么类型，后面代表了一个实例的
+		com.leetcode.muke.Solution_BinaryTreePath0715.TreeNode n77 =  ssss.new TreeNode(7);   //前面代表了什么类型，后面代表了一个实例的
+		com.leetcode.muke.Solution_BinaryTreePath0715.TreeNode n88 =  ssss.new TreeNode(8);   //前面代表了什么类型，后面代表了一个实例的
+		
+		n11.left = n22;
+		n11.right = n33;
+		n22.left = n44;
+		n22.right = n55;
+		n33.left = n66;
+		n33.right = n77;
+		LinkedList<String> lsls = ssss.printPath(n11);
+		for(String s:lsls){
+			System.out.println(s);
+		}
+		System.out.println("采用返回值的方法");
+		LinkedList<String> ds = ssss.printPathback(n11);
+		for(String s:ds){
 			System.out.println(s);
 		}
 		

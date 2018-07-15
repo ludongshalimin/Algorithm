@@ -15,7 +15,7 @@ class Solution_duplicate0608{
 		LinkedList<Integer> hs = new LinkedList<Integer>();
 		int i = 0;
 		while(i<n){
-			if(hs.contains(arr[i])){
+			if(hs.contains(arr[i])){  //相等的话
 				return true;
 			}else{
 				hs.addLast(arr[i]);

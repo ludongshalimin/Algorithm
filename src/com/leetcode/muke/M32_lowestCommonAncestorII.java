@@ -5,6 +5,24 @@ package com.leetcode.muke;
  * @author weifeng
  *
  */
+class Solution_LowestCommonAncestor0715{
+	class TreeNode{
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode(int val){
+			this.val = val;
+		}
+	}
+	public TreeNode findLowestAncestor(TreeNode root,TreeNode p,TreeNode q){
+		if(root == null)return null;
+		if(root==p || root == q)return root;  //如果当前的root
+		TreeNode left = findLowestAncestor(root.left,p,q);
+		TreeNode right = findLowestAncestor(root.right,p,q);
+		if(left != null && right !=null)return root;
+		return left == null?right:left;
+	}
+}
 public class M32_lowestCommonAncestorII {
 	 public class TreeNode {
 		 int val;
@@ -50,6 +68,31 @@ public class M32_lowestCommonAncestorII {
 		 
 		 TreeNode ancestor = myTree.lowestCommonAncestor(node1,node8,node9);
 		 System.out.println(ancestor.val);
+		 
+		 Solution_LowestCommonAncestor0715 sss = new Solution_LowestCommonAncestor0715();
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node11  = sss.new TreeNode(1);
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node22  = sss.new TreeNode(2);
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node33  = sss.new TreeNode(3);
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node44  = sss.new TreeNode(4);
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node55  = sss.new TreeNode(5);
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node66  = sss.new TreeNode(6);
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node77  = sss.new TreeNode(7);
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node88  = sss.new TreeNode(8);
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode node99  = sss.new TreeNode(9);
+		 
+		 node11.left = node22;
+		 node11.right = node33;
+		 node22.left = node44;
+		 node22.right = node55;
+		 node44.left = node88;
+		 node44.right = node99;
+		 node33.left = node66;
+		 node33.right = node77;
+		 
+		 com.leetcode.muke.Solution_LowestCommonAncestor0715.TreeNode ancestor2 = sss.findLowestAncestor(node11,node88,node99);
+		 System.out.println(ancestor.val);
+		 
+		 
 		 
 	 }
 }

@@ -1,6 +1,7 @@
 package com.leetcode.muke;
 /**
  * 二分搜索树是有顺序的
+ * 二凤搜索树是有顺序，顺序是，左孩子的节小于父节点，右孩子大于父节点
  * 给定一棵二分搜索树和两个节点，寻找这两个节点的最近公共祖先。
 如右图所示二分搜索树
 2和8的最近公共祖先为6
@@ -16,6 +17,28 @@ package com.leetcode.muke;
  * @author weifeng
  *利用了二分搜索树的顺序性
  */
+class Solution_LCA_0715{
+	class TreeNode{
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode(int val){
+			this.val = val;
+		}
+	}
+	public TreeNode findLCA(TreeNode root,int p,int q){
+		if(root == null)return null;
+		if(root.val == p || root.val == q)return root;
+		if(p<root.val && q<root.val){  //两个全小于
+			return findLCA(root.left,p,q);
+		}
+		if(p>root.val && q>root.val){
+			return findLCA(root.right,p,q);//两个全大于
+		}
+		return root;     //一个大于一个小于，这时候返回root
+		
+	}
+}
 class Solution_LCA{
 	public class Node{
 		int val;

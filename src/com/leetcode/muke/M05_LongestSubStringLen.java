@@ -17,6 +17,24 @@ import java.util.LinkedList;
  * 如何求出最长的子串
  * 是否可以用个容器类进行判断
  */
+class Solution_subString0715{
+	public int getLen(String s){
+		LinkedList<Character> ls = new LinkedList<Character>();
+		int n = s.length();
+		int i = 0;
+		int maxlength = 0;
+		while(i<n){
+			if(!ls.contains(s.charAt(i))){  //如果不包含
+				ls.add(s.charAt(i));
+				i++;
+				maxlength = Math.max(maxlength,ls.size());
+			}else{     //包含
+				ls.removeFirst();
+			}
+		}
+		return maxlength;
+	}
+}
 class Solution_subString0623{
 	public int getMaxLen(String s){  //给出一个字符串
 		int maxLen = 0;
@@ -195,5 +213,12 @@ public class M05_LongestSubStringLen {
         System.out.println((new Solution_subString0623().getMaxLen( "bbbbb" )));
         System.out.println((new Solution_subString0623().getMaxLen( "pwwkew" )));
         System.out.println((new Solution_subString0623().getMaxLen( "" )));
+        
+        System.out.println("0713");
+        Solution_subString0715 ss = new Solution_subString0715();
+        System.out.println(ss.getLen("abcbabcde" ));
+        System.out.println(ss.getLen("bbbbb"));
+        System.out.println(ss.getLen("pwwkew"));
+        System.out.println(ss.getLen(""));
     }
 }

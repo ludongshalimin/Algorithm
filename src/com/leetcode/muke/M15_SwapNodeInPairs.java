@@ -8,6 +8,55 @@ package com.leetcode.muke;
  * @author weifeng
  *
  */
+class Solution_SwapPairNode0713{
+	class Node{
+		int val;
+		Node next;
+		Node(int val){
+			this.val = val;
+		}
+		public Node(int[] arr){
+			if(arr == null || arr.length ==0){
+				throw new IllegalArgumentException("no result");
+			}
+			this.val = arr[0];
+			Node curNode = this;
+			for(int i = 1;i<arr.length;i++){
+				curNode.next = new Node(arr[i]);
+				curNode = curNode.next;
+			}
+		}
+	    @Override
+	    public String toString(){
+
+	        StringBuilder s = new StringBuilder("");
+	        Node curNode = this;
+	        while(curNode != null){
+	            s.append(Integer.toString(curNode.val));
+	            s.append(" -> ");
+	            curNode = curNode.next;
+	        }
+	        s.append("NULL");
+	        return s.toString();
+	    }
+	}
+	public Node swapNode(Node head){
+		Node dummyHead = new Node(0);
+		dummyHead.next = head;
+		Node cur = dummyHead;
+		while(cur.next!=null && cur.next.next != null){
+			Node p = cur.next;
+			Node q = cur.next.next;
+			
+			p.next = q.next;
+			q.next = p;
+			cur.next = q;
+			
+			cur = p;
+		}
+		return dummyHead.next;
+	}
+}
 class Solution_swapPairNode{
 	class Node{
 		int val;
@@ -151,6 +200,14 @@ public class M15_SwapNodeInPairs {
 		System.out.println(head);
 		head = ss.swapNode(head);
 		System.out.println(head);
+		
+		System.out.println("0715");
+		Solution_SwapPairNode0713 sss = new Solution_SwapPairNode0713();
+		com.leetcode.muke.Solution_SwapPairNode0713.Node head2 = sss.new Node(arr);
+		System.out.println(head2);
+		head2 = sss.swapNode(head2);
+		System.out.println(head2);
+		
 	}
 	
 	

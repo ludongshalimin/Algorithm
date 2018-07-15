@@ -18,10 +18,47 @@ board = {
 "SEE",return true;
 "ABCB",return false;
 */
-class Solution_wordSearch0713{
-	
+class Solution_wordSearch0713{//这种方式有性能问题
+	//从arr[i][j]开始寻找，向4个方向寻找，是否含有word[0..index]
+	private boolean visit[][];
+	private boolean inArea(char[][] arr,int i,int j){
+		int n = arr.length;
+		int m = arr[0].length;
+		return i>=0&&i<n&&j>=0&&j<m;
+	}
+	private boolean isWords(char[][] arr,int i,int j,String word,int index){
+		if(index == 0){
+			return arr[i][j] == word.charAt(index);
+		}
+		if(arr[i][j] != word.charAt(index))return false;
+		visit[i][j] = true;
+		int[][] pos = {{1,0},{0,1},{-1,0},{0,-1}};
+		for(int k = 0;k<4;k++){  //4个方向
+			int new_x = i+pos[k][0];
+			int new_y = j+pos[k][1];
+			if(inArea(arr,new_x,new_y)&&!visit[new_x][new_y]&&isWords(arr,new_x,new_y,word,index-1)){
+				return true;
+			}
+			
+		}
+		visit[i][j] = false;
+		return false;
+	}
+	public boolean hasWords(char[][] arr,String word){
+		int n = arr.length;
+		int m = arr[0].length;
+		visit = new boolean[n][m];
+		for(int i = 0;i<n;i++){
+			for(int j = 0;j<m;j++){
+				if(isWords(arr,i,j,word,word.length()-1)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
-class Solution_WordSearch{
+class Solution_WordSearch{ //这种方式全部通过
 	boolean[][] visit;
 	private boolean isArea(char[][]word,int i,int j){
 		int n = word.length;
@@ -139,5 +176,20 @@ public class M36_WordSearch {
             System.out.println("found AB");
         else
             System.out.println("can not found AB");
+        
+        System.out.println("0713");
+        Solution_wordSearch0713 sss = new Solution_wordSearch0713();
+        for(int i = 0 ; i < words.length ; i ++)
+            if(sss.hasWords(b1, words[i]))
+                System.out.println("found " + words[i]);
+            else
+                System.out.println("can not found " + words[i]);
+        if(sss.hasWords(b2,"AB"))
+            System.out.println("found AB");
+        else
+            System.out.println("can not found AB");
+        
     }
+	
+	
 }
