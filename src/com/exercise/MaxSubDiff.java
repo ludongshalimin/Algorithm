@@ -10,6 +10,35 @@ import java.util.concurrent.atomic.AtomicInteger;
  *方法1：让每个数字逐个减去它右边的所有数字，并通过比较得到数对之差的最大值，总的时间复杂度是O(n2)
  *合适的要记忆：不合适的方法不需要记忆，放在脑后
  */
+class Solution_getMax_0716{
+	//1:右边减掉左边得到的最大的值，股票求最大的差价
+	public int getMax(int[] arr){   
+		int n = arr.length;
+		int min = arr[0];
+		int maxvalue = Integer.MIN_VALUE;
+		for(int i = 0;i<n;i++){
+			if(min > arr[i]){
+				min = arr[i];
+			}
+			maxvalue = Math.max(maxvalue,arr[i]-min);
+		}
+		return maxvalue;
+	}
+	//2:左减掉右最大,那就是需要保存最大的数值
+	public int getMaxValue(int[] arr){
+		int n = arr.length;
+		int max = arr[0];
+		int maxvalue = Integer.MIN_VALUE;
+		for(int i = 0;i<n;i++){
+			if(arr[i]>max){
+				max = arr[i];
+			}
+			maxvalue = Math.max(maxvalue,max-arr[i]);
+		}
+		return maxvalue;
+		
+	}
+}
 class Solution_getMax0607{
 	public int getMax(int[] arr){         //o(n2)
 		int n = arr.length;
@@ -206,8 +235,13 @@ public class MaxSubDiff {
 		Solution_geMaxSub0501 s2 = new Solution_geMaxSub0501();
 		System.out.println(s2.getMaxSub(arr));
 		
-		System.out.print("sasa");
+		System.out.println("sasa");
 		Solution_getMax0506 s3 = new Solution_getMax0506();
 		System.out.print(s3.getRightSubMax(arr));
+		
+		System.out.println("0715");
+		Solution_getMax_0716 s4 = new Solution_getMax_0716();
+		System.out.println(s4.getMax(arr));
+		System.out.println(s4.getMaxValue(arr));
 	}
 }

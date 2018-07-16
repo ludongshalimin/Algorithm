@@ -23,8 +23,8 @@ class Solution_ConsitsString0707{
 	//这里的F(n,m)代表s1[0..n],s2[0..m]是否可以构成s3[0..n+m+1];因为需要全部的进行匹配n+1的长度m+1的长度
 	//终止条件n==-1,表示s1字符串已经没有了，变成了s2[0..m]是否可以构成s3[0..m]
 	//终止条件m==-1,表示s2字符串已经没有了，变成了s1[0..n]是否可以构成s3[0..n]
-	private boolean isConsist(String s1,String s2,String s3,int n,int m){
-		if(n == -1){
+	private boolean isConsist(String s1,String s2,String s3,int n,int m){ //对于剩余的字符串，是否是s3的子串
+		if(n == -1){                                                      //这里的n,m代表了索引
 			return s2.substring(0,m+1).equals(s3.substring(0,m+1));
 		}
 		if(m == -1){
@@ -116,12 +116,12 @@ class Solution_jimu0627{
 					tempMin = arr[j];
 				}
 			}
-			memo[i][1]=tempMin;
+			memo[i][1]=tempMin;  //表达的意思是[0..i]的数据中，选择一个数最小
 		}
 		for(int i = 0;i<n;i++){
 			for(int j =2;j<=k;j++){
 				if(i+1<j)continue;
-				if(i+1==j){
+				if(i+1==j){    //此时要找的数据的个数和所需要的数据的个数相等，这时候也不用选择了，直接进行输出
 					int value = 0;
 					for(int m = 0;m<j;m++){
 						value = (value+arr[m])*10; 

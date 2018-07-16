@@ -6,7 +6,45 @@ import com.sort.QuickSort;
 //为什么是O(N)：因为数据O（N） +O（n/2) +O(n/4)......=O(2n)  所以是O(N)方的复杂度
 //第N大(小)的元素
 //Quick Sort的思路求数组中第n大元素,使用最小堆
-
+class Solution_NMax0716{
+	private void swap(int[] arr,int i ,int j){
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+	}
+	private int partition(int[] arr,int l,int r ){
+		swap(arr,l,((int)Math.random()*(r-l+1))+l);
+		int v = arr[l];
+		int i = l+1;
+		int j = r;
+		while(true){
+			while(i<=r && arr[i]<v)i++;
+			while(j>=l+1 && arr[j]>v)j--;
+			if(i>j)break;
+			swap(arr,i,j);
+			i++;
+			j--;
+		}
+		swap(arr,l,j);
+		return j;
+	}
+	private int sort(int[]arr,int l,int r,int m){
+		int p = partition(arr,l,r);
+		if(p == m){
+			return arr[p];
+		}
+		if(arr[p] >arr[m]){
+			return sort(arr,l,p-1,m);  // 对于pd的位置已经找到了
+		}else{
+			return sort(arr,p+1,r,m);
+		}
+		
+	}
+	public int sort(int[] arr,int m){
+		int n = arr.length;
+		return sort(arr,0,n-1,m);
+	}
+}
 class Soulution_NMax0606{   //求一个数组中的第k大的数， 如果排序，则是o(nlogn+k)
 	private void swap(int[] arr,int i,int j){
 		int temp = arr[i];
@@ -127,6 +165,11 @@ public class NMaxMinNum {
 		Soulution_NMax0606 ss = new Soulution_NMax0606();
 		for(int i = 0;i<arrr.length;i++){
 			System.out.println(ss.getKMin(arrr,i));
+		}
+		System.out.println("0716");
+		Solution_NMax0716 sss = new Solution_NMax0716();
+		for(int i = 0;i<arrr.length;i++){
+			System.out.println(sss.sort(arrr,i));
 		}
 	}
 }

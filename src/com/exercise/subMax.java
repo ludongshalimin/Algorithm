@@ -3,6 +3,21 @@ package com.exercise;
 //这是一道在滴滴面试的一道题，当时采用了一种比较笨的方法做出来的
 
 //在去阿里高德面试的时候，也遇到了这个问题
+class Solution_subMax_0716{
+	//1:右边减掉左边得到的最大的值，股票求最大的差价
+	public int getMax(int[] arr){   
+		int n = arr.length;
+		int min = arr[0];
+		int maxvalue = Integer.MIN_VALUE;
+		for(int i = 0;i<n;i++){
+			if(min > arr[i]){
+				min = arr[i];
+			}
+			maxvalue = Math.max(maxvalue,arr[i]-min);
+		}
+		return maxvalue;
+	}
+}
 class Solution_minSub0606{
 	public int getMinSub(int[] arr){
 		int n = arr.length;
@@ -93,5 +108,9 @@ public class subMax {
 		System.out.println("sasasaa");
 		Solution_minSub0506 s2 = new Solution_minSub0506();
 		System.out.println(s2.getLeftSubMax(arr));
+		
+		System.out.println("0715");
+		Solution_subMax_0716   s3 = new Solution_subMax_0716();
+		System.out.println(s3.getMax(arr));
 	}
 }

@@ -10,7 +10,7 @@ package com.array;
 class Solution_SecondMax0605{
 	public int getSecondMaxII(int[] arr){
 		int n = arr.length;
-		if(n<2) return Integer.MIN_VALUE;
+		if(n<2) return Integer.MIN_VALUE;   //我们要求第二最大的数，所以首先是要有至少两个数
 		int first=Math.max(arr[0],arr[1]) ;  //第一大的数据
 		int second= arr[0]>arr[1]?arr[1]:arr[0];  //第二大的数据
 		for(int i = 2;i<n;i++){

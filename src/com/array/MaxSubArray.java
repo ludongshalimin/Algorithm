@@ -14,6 +14,41 @@ package com.array;
  * f(n) = Math.max(f(n-1),f(n-1)+arr[n],arr[n])
  *
  */
+class Solution_MaxSubArray0715{
+	//[0..n]的最大值
+	//这里的最大值包含三部分F(n) = F(n-1) + arr[n]
+	//						= F(n-1)
+	//						= arr[n]
+	//这样做显然是不合适的，因为要求的是连续的
+	//这样上面的情况，是谈不上连续的，所以应该怎么处理呢？
+//	private int getMax(int[] arr,int n){
+//		
+//	}
+	//memo[i]表示的是以i为结尾的最大的子数组之和
+	public int getMaxValueDy(int[] arr){
+		int n = arr.length;
+		int[] memo = new int[n];
+		memo[0] = arr[0];
+		int maxValue = Integer.MIN_VALUE;
+		for(int i = 1;i<n;i++){
+			memo[i] = Math.max(memo[i-1] + arr[i],arr[i]);
+			maxValue = Math.max(maxValue,memo[i]);
+		}
+		return maxValue;
+	}
+	
+	//动态规划的简化版本
+	public int getMaxValue(int[] arr){
+		int n = arr.length;
+		int n_end = 0;
+		int n_all = 0;
+		for(int i = 0;i<n;i++){
+			n_end = Math.max(n_end + arr[i],arr[i]);
+			n_all = Math.max(n_end,n_all);
+		}
+		return n_all;
+	}
+}
 class Solution_MaxSubArray0605{
 	public int getMaxD(int[] arr){  //动态规划的套路，memo[n]表示的是以arr[n]为结尾的最大数的和
 		int n = arr.length;
@@ -160,5 +195,10 @@ public class MaxSubArray {
 		Solution_MaxSubArray0605 sss = new Solution_MaxSubArray0605();
 		System.out.println(sss.getMax(arr));
 		System.out.println(sss.getMaxD(arr));
+		
+		System.out.println("0716");
+		Solution_MaxSubArray0715 ssss = new Solution_MaxSubArray0715();
+		System.out.println(ssss.getMaxValue(arr));
+		System.out.println(ssss.getMaxValueDy(arr));
 	}
 }

@@ -13,6 +13,7 @@ import com.bishi.kuaishou;
  *
  */
 class xor_solution0517{
+	//针对的是第一个问题
 	public int getSingle(int[] arr){
 		int n = arr.length;
 		int res = arr[0];
@@ -42,7 +43,7 @@ class xor_solution0517{
 		int [] res = new int[2];
 		int n = arr.length;
 		int temp = arr[0];
-		for(int i = 1;i<n;i++){
+		for(int i = 1;i<n;i++){           //先计算所有数的异或的值
 			temp = temp ^arr[i];
 		}
 		//然后找到temp中的1的位置，根据temp中的1进行切分数据
@@ -61,7 +62,7 @@ class xor_solution0517{
 		int n = arr.length;
 		HashMap<Integer,Integer> ss = new HashMap<Integer,Integer>();
 		for(int i = 0;i<n;i++){
-			if(ss.containsKey(arr[i])){
+			if(ss.containsKey(arr[i])){ //如果为真，那就说明有这个数据
 				ss.remove(arr[i]);
 				continue;
 			}

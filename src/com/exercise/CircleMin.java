@@ -2,7 +2,7 @@ package com.exercise;
 /**
  * 这是阿里巴巴的一道测试题，一个长方形，要求裁剪的周长最短
  * @author weifeng
- *
+ * 给一个
  */
 public class CircleMin {
     public static int minS(int m,int n){
